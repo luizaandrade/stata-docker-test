@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.2
-ARG SRCVERSION=17
+ARG SRCVERSION=16
 ARG SRCTAG=2021-10-13
 ARG SRCHUBID=dataeditors
 
