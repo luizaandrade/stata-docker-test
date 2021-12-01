@@ -1,0 +1,82 @@
+
+  ___  ____  ____  ____  ____ (R)
+ /__    /   ____/   /   ____/
+___/   /   /___/   /   /___/   16.1   Copyright 1985-2019 StataCorp LLC
+  Statistics/Data analysis            StataCorp
+                                      4905 Lakeway Drive
+     MP - Parallel Edition            College Station, Texas 77845 USA
+                                      800-STATA-PC        https://www.stata.com
+                                      979-696-4600        stata@stata.com
+                                      979-696-4601 (fax)
+
+Stata license: 701-user 4-core network perpetual
+Serial number: 501606203458
+  Licensed to: WBG User
+               World Bank Group
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000; see help set_maxvar.
+
+. do "main.do" 
+
+. /* main.do */
+. /* Author: Lars Vilhuber */
+. /* NOTE: this is a VERY simple example file
+>          it does NOT fully comply with best practices
+> */
+. 
+. global BASEDIR "" /* <--- adjust as necessary */
+
+. // global BASEDIR "/my/path/to/repo"  
+. 
+. global DATADIR "${BASEDIR}/data"
+
+. global CODEDIR "${BASEDIR}/code"
+
+. 
+. sysuse auto
+(1978 Automobile Data)
+
+. desc
+
+Contains data from /usr/local/stata/ado/base/a/auto.dta
+  obs:            74                          1978 Automobile Data
+ vars:            12                          13 Apr 2018 17:45
+                                              (_dta has notes)
+-------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+-------------------------------------------------------------------------------
+make            str18   %-18s                 Make and Model
+price           int     %8.0gc                Price
+mpg             int     %8.0g                 Mileage (mpg)
+rep78           int     %8.0g                 Repair Record 1978
+headroom        float   %6.1f                 Headroom (in.)
+trunk           int     %8.0g                 Trunk space (cu. ft.)
+weight          int     %8.0gc                Weight (lbs.)
+length          int     %8.0g                 Length (in.)
+turn            int     %8.0g                 Turn Circle (ft.)
+displacement    int     %8.0g                 Displacement (cu. in.)
+gear_ratio      float   %6.2f                 Gear Ratio
+foreign         byte    %8.0g      origin     Car type
+-------------------------------------------------------------------------------
+Sorted by: foreign
+
+. 
+. /* we list the ado files - by default, it should list 'estout' 
+>    that we installed via the setup.do during the build phase
+>    of the Docker image */
+. 
+. ado
+
+[1] package estout from http://fmwww.bc.edu/repec/bocode/e
+      'ESTOUT': module to make regression tables
+
+. 
+. 
+. 
+. 
+end of do-file
