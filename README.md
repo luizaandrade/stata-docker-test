@@ -35,10 +35,10 @@ To run this in the cloud, you will need
    - Best way: Use the "[Use this template](https://github.com/AEADataEditor/stata-project-with-docker/generate)" button on the [main Github page for this project](https://github.com/AEADataEditor/stata-project-with-docker/). Then clone your version of this repository to your local machine and navigate to the folder where it was saved.
    - Good: [Fork the Github repository](https://github.com/AEADataEditor/stata-project-with-docker) by clicking on **Fork** in the top-right corner. Then clone your version of this repository to your local machine and navigate to the folder where it was saved.
    - OK: [Download](https://github.com/AEADataEditor/stata-project-with-docker/archive/refs/heads/main.zip) this project, expand on your computer and navigate to the folder where it was saved.
-2. [ ] Open the `Dockerfile` and [adjust it to match your desired version of Stata](#adjust-the-dockerfile).
-3. [ ] Adjust the `setup.do` file
-4. [ ] Build the Docker image
-5. [ ] Run the Docker image
+2. [ ] [Adjust the `Dockerfile`](#adjust-the-dockerfile).
+3. [ ] [Adjust the `setup.do` file](#use-custom-setup-do-file)
+4. [ ] [Build the Docker image](#build-the-image)
+5. [ ] [Run the Docker image](#run-the-image)
 
 ### Leveraging cloud functionality
 
@@ -55,7 +55,7 @@ If you want to go the extra step
 
 ### Adjust the Dockerfile
 
-The [Dockerfile](Dockerfile) contains instructions to build the container. You can adjust it to match your own needs and preferences.
+The [Dockerfile](Dockerfile) contains instructions to build the container. You can edit it locally by opening it on your clone of this repository to make adjustments that match your own needs and preferences.
 
 #### Set Stata version
 
