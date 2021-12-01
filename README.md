@@ -30,11 +30,10 @@ To run this in the cloud, you will need
 ## Steps
 
 1. [ ] You should copy this template to your own personal space. You can do this in several ways:
-   - Best way: Use the "[Use this template](https://github.com/AEADataEditor/stata-project-with-docker/generate)" button on the [main Github page for this project](https://github.com/AEADataEditor/stata-project-with-docker/). 
-   - Good: [Fork the Github repository](https://github.com/AEADataEditor/stata-project-with-docker) by clicking on **Fork** in the top-right corner.
-   - OK: [Download](https://github.com/AEADataEditor/stata-project-with-docker/archive/refs/heads/main.zip) this project and expand on your computer.
-
-2. [ ] Adjust the `Dockerfile`
+   - Best way: Use the "[Use this template](https://github.com/AEADataEditor/stata-project-with-docker/generate)" button on the [main Github page for this project](https://github.com/AEADataEditor/stata-project-with-docker/). Then clone your version of this repository to your local machine and navigate to the folder where it was saved.
+   - Good: [Fork the Github repository](https://github.com/AEADataEditor/stata-project-with-docker) by clicking on **Fork** in the top-right corner. Then clone your version of this repository to your local machine and navigate to the folder where it was saved.
+   - OK: [Download](https://github.com/AEADataEditor/stata-project-with-docker/archive/refs/heads/main.zip) this project, expand on your computer and navigate to the folder where it was saved.
+2. [ ] Open the `Dockerfile` and [adjust it to match your desired version of Stata](### Adjust the Dockerfile).
 3. [ ] Adjust the `setup.do` file
 4. [ ] Build the Docker image
 5. [ ] Run the Docker image
@@ -54,14 +53,19 @@ If you want to go the extra step
 
 ### Adjust the Dockerfile
 
-The [Dockerfile](Dockerfile) contains the build instructions. A few things of note:
+The [Dockerfile](Dockerfile) contains instructions to build the container. You can adjust it to match your own needs and preferences.
 
-You may want to adjust the following lines to the Stata version of your choice. For released versions and "tags", see [https://hub.docker.com/u/dataeditors](https://hub.docker.com/u/dataeditors). 
+#### Set Stata version
+
+To specify the Stata version of your choice, go to [https://hub.docker.com/u/dataeditors](https://hub.docker.com/u/dataeditors), click on the version you want to use (the one you have a license for), then go to "tags" and see what is the latest available tag for this version. Then, edit the global `SRCVERSION` to match the desired version and the global `SRCTAG` to match the name of the latest tag. 
+
 ```
 ARG SRCVERSION=17
 ARG SRCTAG=2021-10-13
 ARG SRCHUBID=dataeditors
 ```
+
+#### Use custom setup do-file
 
 If you already have a setup file that installs all of your Stata packages, you do not need to rename it, simply change the following line:
 
@@ -96,7 +100,11 @@ The template repository contains a `setup.do` as an example. It should include a
 
 ### Build the image
 
-By default, the build process is documented in [`build.sh`](build.sh) and works on Linux and macOS, but all commands can be run individually as well. You should edit the contents of the [`init.config.txt`](init.config.txt):
+By default, the build process is documented in [`build.sh`](build.sh) and works on Linux and macOS, but all commands can be run individually as well. Running this script will create a docker image with instructions to XXX your container.
+
+#### Set initial configurations
+
+You should edit the contents of the [`init.config.txt`](init.config.txt):
 
 ```
 VERSION=17
@@ -108,10 +116,37 @@ MYIMG=projectname
 
 You may want to adjust the `MYHUBID` and `MYIMG` variables. `MYHUBID` is your login on Docker Hub, and `MYIMG` is the name by which you will refer to this image. A very convenient `MYIMG` name might be the same as the Github repository name (replace `projectname` with `${PWD##*/}`), but it can be anything. You can version with today's date (which is what `date +%F` prints out), or anything else.
 
-Once you have adjusted the [`init.config.txt`](init.config.txt), you can run [`build.sh`](build.sh) (needs a Stata license file!). This will leverage the existing Stata Docker image, add your project-specific details as specified in the [`Dockerfile`](Dockerfile), install any Stata packages as specified in the setup program, and store the project-specific Docker image locally on your computer. It will also write out the chosen configuration into `config.txt`
+#### Copy the Stata license file
 
-You can now use that image to run your project's code.
+Copy your Stata license file to the repository's root directory and set its name to *STATA.LIC*. You can typically find this file with your Stata installation, at XXXXX.
 
+#### Run [`build.sh`](build.sh)
+
+Running the shell script [`build.sh`](build.sh) will leverage the existing Stata Docker image, add your project-specific details as specified in the [`Dockerfile`](Dockerfile), install any Stata packages as specified in the setup program, and store the project-specific Docker image locally on your computer. It will also write out the chosen configuration into `config.txt`. You will then be able to use that image to run your project's code **on the same machine as you buildt it**.
+
+##### Run the script on the terminal
+
+1. Open the terminal
+2. Navigate to the folder where [`build.sh`](build.sh) is stored:
+
+```
+cd /your/file/path
+```
+
+3. Run the shell script:
+
+```
+source build.sh
+```
+
+You will probably need admin rights to run this code. If that is the case, you will get an error message saying that it was not possible to *connect to the Docker deamon*. If you see that message, edit line 27 of [`build.sh`](build.sh) to run the code as admin:
+
+```
+sudo DOCKER_BUILDKIT=1 docker build \
+```
+##### Run line by line
+
+If you are getting error messages, you can also try to debug the shell script by running it line by line. To do so, you can either follow steps 1 and 2 above and then copy the code from [`build.sh`](build.sh) line by line, or you can open [`build.sh`](build.sh) in a text editor such as Atom or VSC, and then run line by line using the text editor commands.
 
 ### Run the image
 

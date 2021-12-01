@@ -1,5 +1,6 @@
-VERSION=17
+VERSION=16
 # the TAG can be anything, but could be today's date
 TAG=$(date +%F) 
-MYHUBID=larsvilhuber
-MYIMG=projectname
+MYHUBID=luizacandrade
+MYIMG=stata-docker-test
+
