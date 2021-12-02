@@ -152,9 +152,10 @@ If you are getting error messages, you can also try to debug the shell script by
 
 ### Run the image
 
-The script [`run.sh`](run.sh) will pick up the configuration information in `config.txt`, and run your project inside the container image. Of note:
+The script [`run.sh`](run.sh) will pick up the configuration information in `config.txt`, and run your project inside the container image. You can run the image through the terminal by navigating to the folder where it is saved and then typing `source run.sh`, or you can open it in your preferred text editor to run it line by line.
 
-- you need the Stata license again
+Of note:
+
 - it maps the `code/` sub-directory in the sample repository into the image as `/code/`. Your Stata code will want to take that into account.
 - it also maps the `data/` sub-directory into the image as `/data/`. 
 - no other subdirectory is available inside the image!
