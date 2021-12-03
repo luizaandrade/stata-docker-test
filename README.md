@@ -15,7 +15,7 @@ These short instructions should get you up and running fairly quickly.
 
 You will need 
 
-- [ ] Stata license file `stata.lic`. You will find this in your local Stata install directory.
+- [ ] A Stata license file `stata.lic`. You will find this in your local Stata install directory.
 
 To run this locally on your computer, you will need
 
@@ -102,7 +102,7 @@ The template repository contains a `setup.do` as an example. It should include a
 
 ### Build the image
 
-By default, the build process is documented in [`build.sh`](build.sh) and works on Linux and macOS, but all commands can be run individually as well. Running this script will create a docker image with instructions to XXX your container.
+By default, the build process is documented in [`build.sh`](build.sh) and works on Linux and macOS, but all commands can be run individually as well. Running this script will create a docker image with instructions to build your container.
 
 #### Set initial configurations
 
@@ -114,19 +114,14 @@ VERSION=17
 TAG=$(date +%F) 
 MYHUBID=larsvilhuber
 MYIMG=projectname
+STATALIC=/home/user/Stata-17/STATA.LIC
 ```
 
-You may want to adjust the `MYHUBID` and `MYIMG` variables. `MYHUBID` is your login on Docker Hub, and `MYIMG` is the name by which you will refer to this image. A very convenient `MYIMG` name might be the same as the Github repository name (replace `projectname` with `${PWD##*/}`), but it can be anything. You can version with today's date (which is what `date +%F` prints out), or anything else.
-
-#### Copy the Stata license file
-
-Copy your Stata license file to the repository's root directory and set its name to *STATA.LIC*. You can typically find this file with your Stata installation, at XXXXX.
+You may want to adjust the `MYHUBID` and `MYIMG` variables. `MYHUBID` is your login on Docker Hub, and `MYIMG` is the name by which you will refer to this image. A very convenient `MYIMG` name might be the same as the Github repository name (replace `projectname` with `${PWD##*/}`), but it can be anything. You can version with today's date (which is what `date +%F` prints out), or anything else. You will also need to point to the location of the Stata license in your computer through the variable `STATALIC`.
 
 #### Run [`build.sh`](build.sh)
 
-Running the shell script [`build.sh`](build.sh) will leverage the existing Stata Docker image, add your project-specific details as specified in the [`Dockerfile`](Dockerfile), install any Stata packages as specified in the setup program, and store the project-specific Docker image locally on your computer. It will also write out the chosen configuration into `config.txt`. You will then be able to use that image to run your project's code **on the same machine as you buildt it**.
-
-##### Run the script on the terminal
+Running the shell script [`build.sh`](build.sh) will leverage the existing Stata Docker image, add your project-specific details as specified in the [`Dockerfile`](Dockerfile), install any Stata packages as specified in the setup program, and store the project-specific Docker image locally on your computer. It will also write out the chosen configuration into `config.txt`. You will then be able to use that image to run your project's code **in the cloud or on the same machine as you built it**.
 
 1. Open the terminal
 2. Navigate to the folder where [`build.sh`](build.sh) is stored:
@@ -141,28 +136,31 @@ cd /your/file/path
 source build.sh
 ```
 
-You will probably need admin rights to run this code. If that is the case, you will get an error message saying that it was not possible to *connect to the Docker deamon*. If you see that message, edit line 27 of [`build.sh`](build.sh) to run the code as admin:
+You will probably need admin rights to run this code. If that is the case, you will get an *Access denied* error message or one that says not possible to *connect to the Docker deamon*. If you see that message, edit line 27 of [`build.sh`](build.sh) to run the code as admin:
 
 ```
 sudo DOCKER_BUILDKIT=1 docker build \
 ```
-##### Run line by line
-
-If you are getting error messages, you can also try to debug the shell script by running it line by line. To do so, you can either follow steps 1 and 2 above and then copy the code from [`build.sh`](build.sh) line by line, or you can open [`build.sh`](build.sh) in a text editor such as Atom or VSC, and then run line by line using the text editor commands.
 
 ### Run the image
 
-The script [`run.sh`](run.sh) will pick up the configuration information in `config.txt`, and run your project inside the container image. You can run the image through the terminal by navigating to the folder where it is saved and then typing `source run.sh`, or you can open it in your preferred text editor to run it line by line.
+The script [`run.sh`](run.sh) will pick up the configuration information in `config.txt`, and run your project inside the container image. If you have a terminal session open where you have already followed steps 1-3 in [Build the image](#build-the-image), you can simple run `source run.sh`. Otherwise, follow steps 1 and 2 above and then run `source run.sh`.
 
 Of note:
 
-- it maps the `code/` sub-directory in the sample repository into the image as `/code/`. Your Stata code will want to take that into account.
-- it also maps the `data/` sub-directory into the image as `/data/`. 
-- no other subdirectory is available inside the image!
+- If you get an *Access denied* error, that means you need root privileges to run docker. There are three different solutions to this issue:
+  
+  1. Best practice: run docker in [rootless mode](https://docs.docker.com/engine/security/rootless/)
+  1. Good: [add your user to the docker group](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
+  1. Bad practice: run docker as root by editing line 48 in [`run.sh`](run.sh) and adding `sudo` before `docker run`
+
+- The image maps the `code/` sub-directory in the sample repository into the image as `/code/`. Your Stata code will want to take that into account.
+- The image also maps the `data/` sub-directory into the image as `/data/`. 
+- No other subdirectory is available inside the image!
 - The sample code [`code/main.do`](code/main.do) can be used as a template for your own main file. 
 - Your output will appear wherever Stata code writes it to. If that is within the mapped directories `/data/` and `/code`, it will be preserved once the Docker image is stopped (and deleted).
 - If you need additional sub-directories availabe in the image, you will need to map them, using additional `-v` lines.
-  - For best practice, you might want to map an additional `results` directory, e.g., `-v $(pwd)/results:/results` and instruct your Stata code to write to that. 
+- For best practice, you might want to map an additional `results` directory, e.g., by adding `-v $(pwd)/results:/results` after line 51 in [`run.sh`](run.sh) and instruct your Stata code to write to that. 
 
 ## Cloud functionality
 
