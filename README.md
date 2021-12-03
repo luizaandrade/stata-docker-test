@@ -35,8 +35,8 @@ To run this in the cloud, you will need
    - Best way: Use the "[Use this template](https://github.com/AEADataEditor/stata-project-with-docker/generate)" button on the [main Github page for this project](https://github.com/AEADataEditor/stata-project-with-docker/). Then clone your version of this repository to your local machine and navigate to the folder where it was saved.
    - Good: [Fork the Github repository](https://github.com/AEADataEditor/stata-project-with-docker) by clicking on **Fork** in the top-right corner. Then clone your version of this repository to your local machine and navigate to the folder where it was saved.
    - OK: [Download](https://github.com/AEADataEditor/stata-project-with-docker/archive/refs/heads/main.zip) this project, expand on your computer and navigate to the folder where it was saved.
-2. [ ] [Adjust the `Dockerfile`](#adjust-the-dockerfile).
-3. [ ] [Adjust the `setup.do` file](#use-custom-setup-do-file)
+2. [ ] [Adjust the `Dockerfile`](#adjust-the-dockerfile)
+3. [ ] [Adjust `setup.do`](#use-custom-setup-do-file)
 4. [ ] [Build the Docker image](#build-the-image)
 5. [ ] [Run the Docker image](#run-the-image)
 
