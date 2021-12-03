@@ -17,7 +17,7 @@ fi
 sudo DOCKER_BUILDKIT=1 docker build \
   $BUILDARGS \
   . \
-  --secret id=statalic,src=STATA.LIC \
+  --secret id=statalic,src=$STATALIC \
   -t ${DOCKERIMG}:$TAG
 
 if [[ $? == 0 ]]

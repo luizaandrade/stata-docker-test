@@ -3,3 +3,4 @@ VERSION=16
 TAG=$(date +%F) 
 MYHUBID=luizacandrade
 MYIMG=stata-docker-test
+STATALIC=/home/luiza/github/stata-docker-test/STATA.LIC

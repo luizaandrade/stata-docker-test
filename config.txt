@@ -1,5 +1,6 @@
-# configuration created on 2021-12-01_14:24
+# configuration created on 2021-12-02_19:13
 VERSION=16
-TAG=2021-12-01
+TAG=2021-12-02
 MYHUBID=luizacandrade
 MYIMG=stata-docker-test
+STATALIC=/home/luiza/github/stata-docker-test/STATA.LIC
