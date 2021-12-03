@@ -28,6 +28,7 @@ then
    TAG=latest
 else
    DOCKEROPTS="-it --rm"
+   source init.config.txt
    source $configfile
    DOCKERIMG=$MYHUBID/$MYIMG
 fi
@@ -44,8 +45,8 @@ logfile=${file%*.do}.log
 # run the docker and the Stata file
 # note that the working directory will be set to '/code' by default
 
-sudo docker run $DOCKEROPTS \
-  -v $(pwd)/STATA.LIC:/usr/local/stata/stata.lic \
+docker run $DOCKEROPTS \
+  -v ${STATALIC}:/usr/local/stata/stata.lic \
   -v $(pwd)/${codedir}:/code \
   -v $(pwd)/data:/data \
   $DOCKERIMG:$TAG -b $basefile

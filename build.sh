@@ -14,7 +14,7 @@ else
    DOCKERIMG=$MYHUBID/$MYIMG
 fi
 
-sudo DOCKER_BUILDKIT=1 docker build \
+DOCKER_BUILDKIT=1 docker build \
   $BUILDARGS \
   . \
   --secret id=statalic,src=$STATALIC \
